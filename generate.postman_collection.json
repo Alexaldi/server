@@ -1,0 +1,66 @@
+{
+	"info": {
+		"_postman_id": "bc553c97-082c-4dac-b415-62fd6f9d8589",
+		"name": "generate",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "24027303"
+	},
+	"item": [
+		{
+			"name": "generate-invoice",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"nama\": \"sdad Ltd.\",\r\n    \"instansi\":\"upi\",\r\n    \"nosurat\":\"lk/12/12\",\r\n    \"tanggal\":\"12-05-05\",\r\n    \"total\":\"500.000\",\r\n    \"pesan\": [\r\n        { \"deskripsi\": \"Gates\", \"jumlah\": \"4\",\"hs\": 4,\"jb\":\"200.000\"},\r\n        { \"deskripsi\": \"ali\", \"jumlah\": \"4\",\"hs\": 4,\"jb\":\"200.000\"}\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/generate-invoice",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"generate-invoice"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "generate-result",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n        \"nama\": \"Gilang Aldiano\",\r\n        \"alamat\": \"GJA bla bla\",\r\n        \"institusi\": \"unikom\",\r\n        \"telp\": \"092091021\",\r\n        \"sample\": \"batu\",\r\n        \"jumlah\": \"2\",\r\n        \"tgl\": \"24-05-24\",\r\n        \"jns\": \"batu\",\r\n        \"kode\": \"40921\",\r\n        \"wjd\": \"batu\",\r\n        \"sls\": \"070707\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/generate-word-document",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"generate-word-document"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
