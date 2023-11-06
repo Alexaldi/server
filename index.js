@@ -24,16 +24,16 @@ app.post('/generate-word-document', async (req, res) => {
     const doc = await handler.process(templateFile, data);
 
     // 3. send output
-    const fileName = `Hasil-${new Date().toISOString().slice(0, 10)}-${data.nama.replace(" ", "_")}.docx`
+    const fileName = `${new Date().toISOString().slice(0, 10)}-${data.nama.replace(" ", "_")}.docx`
     const filePath = path.join(__dirname, `/public/doc/hasil/${fileName}`);
     fs.writeFileSync(filePath, doc);
-
+    console.log(filePath);
     res.download(`${filePath}`, fileName, (err) => {
         if (err) {
             console.error(err);
             res.status(500).send('Internal server error');
+            fs.unlinkSync(`${filePath}`);
         }
-        fs.unlinkSync(`${filePath}`);
     });
 });
 
@@ -47,16 +47,15 @@ app.post('/generate-invoice', async (req, res) => {
     const doc = await handler.process(templateFile, data);
 
     // 3. send output
-    const fileName = `Invoice-${new Date().toISOString().slice(0, 10)}-${data.nama.replace(" ", "_")}.docx`
+    const fileName = `${new Date().toISOString().slice(0, 10)}-${data.nama.replace(" ", "_")}.docx`
     const filePath = path.join(__dirname, `/public/doc/invoice/${fileName}`);
     fs.writeFileSync(filePath, doc);
-
     res.download(`${filePath}`, fileName, (err) => {
         if (err) {
             console.error({ err });
             res.status(500).send('Internal server error');
+            fs.unlinkSync(`${filePath}`);
         }
-        fs.unlinkSync(`${filePath}`);
     });
 });
 
