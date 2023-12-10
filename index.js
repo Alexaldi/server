@@ -4,8 +4,9 @@ import fs from 'fs';
 import cors from 'cors';
 import bodyParser from 'body-parser';
 import { TemplateHandler } from 'easy-template-x';
+import XlsxTemplate from 'xlsx-template';
 import { __dirname } from "./global.js";
-console.log(__dirname);
+
 const app = express()
 const port = 3000
 
@@ -59,5 +60,43 @@ app.post('/generate-invoice', async (req, res) => {
     });
 });
 
+app.post('/generate-excel', async (req, res) => {
+
+    fs.readFile(path.join('./public/xlsx/template/bon.xlsx'), function (err, data) {
+
+        // Create a template
+        var template = new XlsxTemplate(data);
+
+        // Replacements take place on first sheet
+        var sheetNumber = 1;
+
+        // Set up some placeholder values matching the placeholders in the template
+        var values = {
+            tanggal: '2023-11-22',
+            penerima: 'gilang',
+            jenis_jasa: 'cek tanah',
+            total: 20000,
+            tgltanda: "bandung,24 mei 2024"
+        };
+
+        // Perform substitution
+        template.substitute(sheetNumber, values);
+
+        // Get binary data
+        var data = template.generate();
+        const fileName = `${new Date().toISOString().slice(0, 10)}-${values.penerima.replace(" ", "_")}.xlsx`
+        const filePath = path.join(__dirname, `/public/xlsx/output/${fileName}`);
+
+        fs.writeFileSync(filePath, data, 'binary');
+        res.download(`${filePath}`, fileName, (err) => {
+            if (err) {
+                console.error({ err });
+                res.status(500).send('Internal server error');
+                fs.unlinkSync(`${filePath}`);
+            }
+            console.log("download berhasil");
+        });
+    })
+})
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`))
